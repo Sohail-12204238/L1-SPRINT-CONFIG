@@ -6,7 +6,7 @@ spring:
     name: INVESTMENT-SERVICE
 
   datasource:
-    url: jdbc:mysql://localhost:3306/investment_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/investments_db?createDatabaseIfNotExist=true
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
