@@ -1,47 +1,104 @@
 spring:
   application:
     name: api-gateway
+
   cloud:
     gateway:
       server:
         webflux:
           routes:
+
+            # ================= NORMAL ROUTES =================
+
             - id: auth-service
               uri: lb://AUTH-SERVICE
               predicates:
                 - Path=/auth/**
+
             - id: user-service
               uri: lb://USER-SERVICE
               predicates:
                 - Path=/users/**
+
             - id: startup-service
               uri: lb://STARTUP-SERVICE
               predicates:
                 - Path=/startups/**
+
             - id: investment-service
               uri: lb://INVESTMENT-SERVICE
               predicates:
                 - Path=/investments/**
+
             - id: team-service
               uri: lb://TEAM-SERVICE
               predicates:
                 - Path=/teams/**
+
+
+            # ================= SWAGGER DOC ROUTES =================
+
+            - id: auth-docs
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/v3/api-docs/auth
+              filters:
+                - RewritePath=/v3/api-docs/auth, /v3/api-docs
+
+            - id: user-docs
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/v3/api-docs/user
+              filters:
+                - RewritePath=/v3/api-docs/user, /v3/api-docs
+
+            - id: startup-docs
+              uri: lb://STARTUP-SERVICE
+              predicates:
+                - Path=/v3/api-docs/startup
+              filters:
+                - RewritePath=/v3/api-docs/startup, /v3/api-docs
+
+            - id: investment-docs
+              uri: lb://INVESTMENT-SERVICE
+              predicates:
+                - Path=/v3/api-docs/investment
+              filters:
+                - RewritePath=/v3/api-docs/investment, /v3/api-docs
+
+            - id: team-docs
+              uri: lb://TEAM-SERVICE
+              predicates:
+                - Path=/v3/api-docs/team
+              filters:
+                - RewritePath=/v3/api-docs/team, /v3/api-docs
+
+
+# ================= SWAGGER UI =================
+
+springdoc:
   swagger-ui:
     path: /swagger-ui.html
     urls:
       - name: auth-service
-        url: /auth/v3/api-docs
+        url: /v3/api-docs/auth
       - name: user-service
-        url: /users/v3/api-docs
+        url: /v3/api-docs/user
       - name: startup-service
-        url: /startups/v3/api-docs
+        url: /v3/api-docs/startup
       - name: investment-service
-        url: /investments/v3/api-docs
+        url: /v3/api-docs/investment
       - name: team-service
-        url: /teams/v3/api-docs
+        url: /v3/api-docs/team
+
+
+# ================= SERVER =================
 
 server:
   port: 8085
+
+
+# ================= EUREKA =================
 
 eureka:
   client:
@@ -50,6 +107,9 @@ eureka:
   instance:
     prefer-ip-address: true
     hostname: localhost
+
+
+# ================= RESILIENCE =================
 
 resilience4j:
   circuitbreaker:
@@ -60,6 +120,9 @@ resilience4j:
         wait-duration-in-open-state: 10s
         sliding-window-size: 10
 
+
+# ================= ACTUATOR =================
+
 management:
   endpoints:
     web:
@@ -69,6 +132,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
+
+# ================= ZIPKIN =================
 
 zipkin:
   tracing:
