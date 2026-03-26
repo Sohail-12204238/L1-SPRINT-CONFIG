@@ -26,6 +26,19 @@ spring:
               uri: lb://TEAM-SERVICE
               predicates:
                 - Path=/teams/**
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: auth-service
+        url: /auth/v3/api-docs
+      - name: user-service
+        url: /users/v3/api-docs
+      - name: startup-service
+        url: /startups/v3/api-docs
+      - name: investment-service
+        url: /investments/v3/api-docs
+      - name: team-service
+        url: /teams/v3/api-docs
 
 server:
   port: 8085
