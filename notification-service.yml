@@ -22,6 +22,18 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sohail.rcom4@gmail.com
+    password: kewq vvpf xbry aykx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   cloud:
     compatibility-verifier:
       enabled: false
